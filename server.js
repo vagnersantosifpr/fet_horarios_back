@@ -11,6 +11,7 @@ const disciplinasRoutes = require('./routes/disciplinas');
 const salasRoutes = require('./routes/salas');
 const preferenciasRoutes = require('./routes/preferencias');
 const horariosRoutes = require('./routes/horarios');
+const publicRoutes = require('./routes/public_routes');
 
 // Importar seed
 const seedDatabase = require('./seed');
@@ -78,6 +79,7 @@ app.use('/api/disciplinas', disciplinasRoutes);
 app.use('/api/salas', salasRoutes);
 app.use('/api/preferencias', preferenciasRoutes);
 app.use('/api/horarios', horariosRoutes);
+app.use('/api/public', publicRoutes);
 
 // Rota de health check
 app.get('/api/health', (req, res) => {

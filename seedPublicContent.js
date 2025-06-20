@@ -1,6 +1,6 @@
 // scripts/seedPublicContent.js
 const mongoose = require('mongoose');
-const PublicContent = require('../models/PublicContent');
+const PublicContent = require('./models/PublicContent');
 require('dotenv').config();
 
 async function seedPublicContent() {
