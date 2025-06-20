@@ -6,12 +6,16 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
 // Importar rotas
+const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 const disciplinasRoutes = require('./routes/disciplinas');
-const salasRoutes = require('./routes/salas');
-const preferenciasRoutes = require('./routes/preferencias');
+const horariosExtendendRoutes = require('./routes/horarios_extendend');
 const horariosRoutes = require('./routes/horarios');
+const preferenciasExtendendRoutes = require('./routes/preferencias_extended');
+const preferenciasRoutes = require('./routes/preferencias');
 const publicRoutes = require('./routes/public_routes');
+const salasRoutes = require('./routes/salas');
+
 
 // Importar seed
 const seedDatabase = require('./seed');
@@ -74,12 +78,15 @@ app.use((req, res, next) => {
 });
 
 // Rotas da API
+app.use('/api/admin', adminRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/disciplinas', disciplinasRoutes);
-app.use('/api/salas', salasRoutes);
-app.use('/api/preferencias', preferenciasRoutes);
+app.use('/api/horarios_extendend', horariosExtendendRoutes);
 app.use('/api/horarios', horariosRoutes);
+app.use('/api/preferencias_extendend', preferenciasExtendendRoutes);
+app.use('/api/preferencias', preferenciasRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/salas', salasRoutes);
 
 // Rota de health check
 app.get('/api/health', (req, res) => {
