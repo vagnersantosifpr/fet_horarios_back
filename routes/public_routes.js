@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const PublicContent = require('../models/PublicContent');
 
+router.get('/', async (req, res) => {
+    res.json("Endpoint não implementado!");
+});
 // GET /api/public/content - Obter conteúdo da página pública
 router.get('/content', async (req, res) => {
   try {

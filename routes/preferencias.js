@@ -5,6 +5,10 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+  res.json("Endpoint não implementado!");
+});
+
 // Middleware para capturar erros de validação
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
