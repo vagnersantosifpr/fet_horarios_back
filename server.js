@@ -23,7 +23,7 @@ app.use(helmet());
 // Configurar CORS
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://fet-horarios-front.vercel.app']
+    ? ['https://fet-horarios-front.vercel.app','http://localhost:4200']
     : ['http://localhost:4200', 'http://localhost:3000'],
   credentials: true
 }));
