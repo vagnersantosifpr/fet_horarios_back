@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const HorarioColetivoGerado = require('../models/HorarioColetivoGerado');
+const HorarioColetivo = require('../models/HorarioColetivo');
 const ProfessorPreferencia = require('../models/ProfessorPreferencia');
 const User = require('../models/User');
 const Disciplina = require('../models/Disciplina');
@@ -37,7 +37,7 @@ router.get('/coletivos', adminAuth, async (req, res) => {
       query.status = status;
     }
 
-    const horarios = await HorarioColetivoGerado.find(query)
+    const horarios = await HorarioColetivo.find(query)
       .populate('administrador', 'nome email')
       .populate('professores', 'nome email departamento')
       .populate('disciplinas', 'codigo nome cargaHoraria')
@@ -46,7 +46,7 @@ router.get('/coletivos', adminAuth, async (req, res) => {
       .skip((page - 1) * limit)
       .sort({ criadoEm: -1 });
 
-    const total = await HorarioColetivoGerado.countDocuments(query);
+    const total = await HorarioColetivo.countDocuments(query);
 
     res.json({
       success: true,
@@ -72,7 +72,7 @@ router.get('/coletivos', adminAuth, async (req, res) => {
 // Obter horário coletivo específico (apenas admins)
 router.get('/coletivos/:id', adminAuth, async (req, res) => {
   try {
-    const horario = await HorarioColetivoGerado.findById(req.params.id)
+    const horario = await HorarioColetivo.findById(req.params.id)
       .populate('administrador', 'nome email departamento')
       .populate('professores', 'nome email departamento')
       .populate('disciplinas', 'codigo nome cargaHoraria creditos')
@@ -235,7 +235,7 @@ router.post('/gerar-coletivo', adminAuth, [
     }
 
     // Criar registro do horário coletivo com status 'gerando'
-    const horarioColetivo = new HorarioColetivoGerado({
+    const horarioColetivo = new HorarioColetivo({
       titulo,
       administrador: req.user._id,
       semestre,
@@ -384,7 +384,7 @@ async function simularGeracaoHorarioColetivo(professores, disciplinas, salas, pa
 // Cancelar geração de horário coletivo (apenas admins)
 router.put('/coletivos/:id/cancelar', adminAuth, async (req, res) => {
   try {
-    const horario = await HorarioColetivoGerado.findOne({
+    const horario = await HorarioColetivo.findOne({
       _id: req.params.id,
       status: 'gerando'
     });
@@ -415,7 +415,7 @@ router.put('/coletivos/:id/cancelar', adminAuth, async (req, res) => {
 // Excluir horário coletivo (apenas admins)
 router.delete('/coletivos/:id', adminAuth, async (req, res) => {
   try {
-    const horario = await HorarioColetivoGerado.findByIdAndDelete(req.params.id);
+    const horario = await HorarioColetivo.findByIdAndDelete(req.params.id);
 
     if (!horario) {
       return res.status(404).json({
@@ -443,7 +443,7 @@ router.get('/coletivos/estatisticas/geral', adminAuth, async (req, res) => {
     const { semestre } = req.query;
     const query = semestre ? { semestre } : {};
 
-    const estatisticas = await HorarioColetivoGerado.aggregate([
+    const estatisticas = await HorarioColetivo.aggregate([
       { $match: query },
       {
         $group: {

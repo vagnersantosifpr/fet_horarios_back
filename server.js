@@ -13,7 +13,7 @@ const horariosExtendendRoutes = require('./routes/horarios_extendend');
 const horariosRoutes = require('./routes/horarios');
 const preferenciasExtendendRoutes = require('./routes/preferencias_extended');
 const preferenciasRoutes = require('./routes/preferencias');
-const publicRoutes = require('./routes/public_routes');
+const publicRoutes = require('./routes/public');
 const salasRoutes = require('./routes/salas');
 
 

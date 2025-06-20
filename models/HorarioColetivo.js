@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const horarioColetivoGeradoSchema = new mongoose.Schema({
+const HorarioColetivoSchema = new mongoose.Schema({
   titulo: {
     type: String,
     required: [true, 'Título é obrigatório'],
@@ -212,13 +212,13 @@ const horarioColetivoGeradoSchema = new mongoose.Schema({
 });
 
 // Middleware para atualizar atualizadoEm
-horarioColetivoGeradoSchema.pre('save', function(next) {
+HorarioColetivoSchema.pre('save', function(next) {
   this.atualizadoEm = Date.now();
   next();
 });
 
 // Middleware para calcular estatísticas antes de salvar
-horarioColetivoGeradoSchema.pre('save', function(next) {
+HorarioColetivoSchema.pre('save', function(next) {
   if (this.horariosGerados && this.horariosGerados.length > 0) {
     this.estatisticas.totalProfessores = this.professores.length;
     this.estatisticas.totalDisciplinas = this.disciplinas.length;
@@ -239,5 +239,5 @@ horarioColetivoGeradoSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('HorarioColetivoGerado', horarioColetivoGeradoSchema);
+module.exports = mongoose.model('HorarioColetivo', HorarioColetivoSchema);
 
