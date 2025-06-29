@@ -47,29 +47,29 @@ router.get('/:turmaCode/:semester', async (req, res) => {
 // Update timetable for a specific turma and semester
 // Expects body: { schedule: { "slotId": "disciplineId", ... } }
 router.put('/:turmaCode/:semester', async (req, res) => {
-    // <<< REPLACED ALERT LOGIC WITH ACTUAL DB SAVE >>>
-    try {
-        const { turmaCode, semester } = req.params;
-        const updatedSchedule = req.body.schedule; // Expect the entire schedule map
+  // <<< REPLACED ALERT LOGIC WITH ACTUAL DB SAVE >>>
+  try {
+    const { turmaCode, semester } = req.params;
+    const updatedSchedule = req.body.schedule; // Expect the entire schedule map
 
-        const timetable = await Timetable.findOne({ turmaCode, semester });
+    const timetable = await Timetable.findOne({ turmaCode, semester });
 
-        if (!timetable) {
-             return res.status(404).json({ message: 'Timetable not found for this turma and semester.' });
-        }
-
-        // Update the schedule map
-        timetable.schedule = updatedSchedule;
-
-        // Save the updated timetable
-        await timetable.save();
-
-        res.json({ message: 'Timetable updated successfully!', timetable });
-
-    } catch (err) {
-        console.error('Error saving timetable:', err);
-        res.status(500).json({ message: 'Failed to update timetable.', error: err.message });
+    if (!timetable) {
+      return res.status(404).json({ message: 'Timetable not found for this turma and semester.' });
     }
+
+    // Update the schedule map
+    timetable.schedule = updatedSchedule;
+
+    // Save the updated timetable
+    await timetable.save();
+
+    res.json({ message: 'Timetable updated successfully!', timetable });
+
+  } catch (err) {
+    console.error('Error saving timetable:', err);
+    res.status(500).json({ message: 'Failed to update timetable.', error: err.message });
+  }
 });
 
 
