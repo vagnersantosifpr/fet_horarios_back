@@ -5,6 +5,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
+
+
+
 // Importar rotas
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
@@ -15,10 +18,11 @@ const preferenciasExtendendRoutes = require('./routes/preferencias_extended');
 const preferenciasRoutes = require('./routes/preferencias');
 const publicRoutes = require('./routes/public');
 const salasRoutes = require('./routes/salas');
+const timetableRoutes = require('./routes/timetable');
 
 
 // Importar seed
-const seedDatabase = require('./seed');
+const seedDatabase = require('./seed/seed');
 
 const app = express();
 
@@ -43,6 +47,8 @@ const limiter = rateLimit({
   }
 });
 app.use('/api/', limiter);
+
+
 
 // Middleware para parsing JSON
 app.use(express.json({ limit: '10mb' }));
@@ -87,6 +93,7 @@ app.use('/api/preferencias_extendend', preferenciasExtendendRoutes);
 app.use('/api/preferencias', preferenciasRoutes);
 app.use('/api/public', publicRoutes);
 app.use('/api/salas', salasRoutes);
+app.use('/api/timetable', timetableRoutes);
 
 // Rota de health check
 app.get('/api/health', (req, res) => {
@@ -97,6 +104,8 @@ app.get('/api/health', (req, res) => {
     environment: process.env.NODE_ENV
   });
 });
+
+
 
 // Rota raiz
 app.get('/', (req, res) => {
@@ -110,7 +119,10 @@ app.get('/', (req, res) => {
       salas: '/api/salas',
       preferencias: '/api/preferencias',
       horarios: '/api/horarios',
-      health: '/api/health'
+      health: '/api/health',
+      public: '/api/public',
+      timetable: '/api/timetable'
+
     }
   });
 });
