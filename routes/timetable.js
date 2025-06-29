@@ -7,6 +7,7 @@ const Timetable = require('../models/timetable.model');
 router.get('/disciplines', async (req, res) => {
   try {
     const disciplines = await Discipline.find();
+    //console.log("Retornando as disciplinas" + disciplines);
     res.json(disciplines);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -14,7 +15,7 @@ router.get('/disciplines', async (req, res) => {
 });
 
 // Get timetable for a specific turma and semester
-router.get('/timetable/:turmaCode/:semester', async (req, res) => {
+router.get('/:turmaCode/:semester', async (req, res) => {
   try {
     const { turmaCode, semester } = req.params;
     const timetable = await Timetable.findOne({ turmaCode, semester });
@@ -45,7 +46,7 @@ router.get('/timetable/:turmaCode/:semester', async (req, res) => {
 
 // Update timetable for a specific turma and semester
 // Expects body: { schedule: { "slotId": "disciplineId", ... } }
-router.put('/timetable/:turmaCode/:semester', async (req, res) => {
+router.put('/:turmaCode/:semester', async (req, res) => {
     // <<< REPLACED ALERT LOGIC WITH ACTUAL DB SAVE >>>
     try {
         const { turmaCode, semester } = req.params;
